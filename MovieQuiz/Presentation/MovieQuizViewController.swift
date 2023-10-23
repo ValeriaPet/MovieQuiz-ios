@@ -30,12 +30,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
-    private func hideLoadingIndicator () {
-        activityIndicator.isHidden = true
-        activityIndicator.stopAnimating()
-    }
+    //private func hideLoadingIndicator () {
+        //activityIndicator.isHidden = true
+        //activityIndicator.stopAnimating()}
     private func showNetworkError (message: String) {
-        hideLoadingIndicator()
+        //hideLoadingIndicator()
         
         let model = AlertModel (
             title: "Ошибка",
@@ -77,10 +76,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         imageView.layer.cornerRadius = 20
         
-        //questionFactory = QuestionFactory(delegate: self)
+        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), 
+                                          delegate: self)
+        showLoadingIndicator()
+        questionFactory?.loadData()
         alertPresenter = ResultAlertPresenter(viewController: self)
-        questionFactory?.requestNextQuestion()
-        
         
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         print(documentsURL)

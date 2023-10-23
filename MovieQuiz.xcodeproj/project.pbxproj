@@ -89,8 +89,8 @@
 				042171D22AAF589E0053C8A0 /* QuizStepViewModel.swift */,
 				042171D42AAF58AC0053C8A0 /* QuizResultsViewModel.swift */,
 				042171D62AAF58BA0053C8A0 /* QuizQuestion.swift */,
-				0432571B2ACC43EB00F4DF37 /* AlertModel.swift */,
 				04F3DE952AE1805F00D31EB6 /* MostPopularMovies.swift */,
+				0432571B2ACC43EB00F4DF37 /* AlertModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
