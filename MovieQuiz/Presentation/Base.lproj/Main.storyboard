@@ -91,9 +91,10 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="The Godfather" translatesAutoresizingMaskIntoConstraints="NO" id="kN3-Yn-79N" userLabel="Preview Image">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Old" translatesAutoresizingMaskIntoConstraints="NO" id="kN3-Yn-79N" userLabel="Preview Image">
                                         <rect key="frame" x="0.0" y="43.666666666666686" width="353" height="529.66666666666652"/>
                                         <color key="backgroundColor" name="YP Black"/>
+                                        <color key="tintColor" name="YP Background"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="kN3-Yn-79N" secondAttribute="height" multiplier="2:3" id="vub-g8-Tqg"/>
                                         </constraints>
@@ -111,8 +112,8 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="TMx-fJ-hUO">
-                                <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="TMx-fJ-hUO">
+                                <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -125,14 +126,18 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="R3P-yO-AfD" secondAttribute="trailing" constant="20" id="RGU-QJ-9vf"/>
                             <constraint firstItem="R3P-yO-AfD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="adI-q9-G6F"/>
                             <constraint firstItem="TMx-fJ-hUO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lyB-AK-Dzk"/>
+                            <constraint firstItem="TMx-fJ-hUO" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="oca-3i-x5W"/>
                             <constraint firstItem="8Ya-in-WVe" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="tUT-du-rPP"/>
+                            <constraint firstItem="TMx-fJ-hUO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vPk-3e-YfA"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="TMx-fJ-hUO" id="xnd-gg-ov3"/>
                         <outlet property="counterLabel" destination="rMq-c8-Wi8" id="tER-ur-KaZ"/>
                         <outlet property="imageView" destination="kN3-Yn-79N" id="bdu-kC-u2O"/>
+                        <outlet property="noButton" destination="Zc0-7w-tBR" id="Zil-vl-1jT"/>
                         <outlet property="textLabel" destination="Ekq-xj-lf3" id="Ccq-3T-0eH"/>
+                        <outlet property="yesButton" destination="Ma7-HN-rWh" id="Cbp-vZ-Fxe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -141,7 +146,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="The Godfather" width="1192" height="1716"/>
+        <image name="Old" width="1000" height="1501"/>
+        <namedColor name="YP Background">
+            <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="0.60000002384185791" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
