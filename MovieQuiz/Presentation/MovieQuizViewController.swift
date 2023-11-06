@@ -6,10 +6,17 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     @IBOutlet private var imageView: UIImageView!
     
+    @IBOutlet private var yesButton: UIButton!
+    
+    @IBOutlet private var noButton: UIButton!
+    
     @IBOutlet private var textLabel: UILabel!
     
     @IBOutlet private var counterLabel: UILabel!
     
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
+    
+
     
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
@@ -22,6 +29,35 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     
     // MARK: - QuestionFactoryDelegate
+    
+    private func showLoadingIndicator() {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+    }
+    private func showNetworkError (message: String) {
+        
+        let model = AlertModel (
+            title: "Ошибка",
+            message: message,
+            textButton: "Попробовать еще раз") { [weak self] in
+                guard let self = self else {return}
+                
+                self.currentQuestionIndex = 0
+                self.correctAnswers = 0
+                
+                self.questionFactory?.requestNextQuestion()
+            }
+        alertPresenter?.show(alertModel: model)
+    }
+    
+    func didLoadDataFromServer() {
+        activityIndicator.isHidden = true
+        questionFactory?.requestNextQuestion()
+    }
+    
+    func didFailToLoadData(with error: Error) {
+        showNetworkError(message: error.localizedDescription)
+    }
     
     func didReceiveNextQuestion(question: QuizQuestion?) {
         guard let question = question else {
@@ -40,10 +76,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         imageView.layer.cornerRadius = 20
         
-        questionFactory = QuestionFactory(delegate: self)
+        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(),delegate: self)
+        showLoadingIndicator()
+        questionFactory?.loadData()
         alertPresenter = ResultAlertPresenter(viewController: self)
-        questionFactory?.requestNextQuestion()
-        
         
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         print(documentsURL)
@@ -55,11 +91,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         guard let currentQuestion = currentQuestion else {
             return
         }
-        
         let givenAnswer = true
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+
     }
-    // метод вызывается, когда пользователь нажимает на кнопку "Нет"
+  
     @IBAction private func noButtonClicked(_ sender: UIButton) {
         
         guard let currentQuestion = currentQuestion else {
@@ -67,11 +103,12 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
         let givenAnswer = false
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+
     }
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        QuizStepViewModel(
-            image: UIImage(named: model.image) ?? UIImage(),
+        return QuizStepViewModel(
+            image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
     }
@@ -124,11 +161,15 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         } else {
             imageView.layer.borderColor = UIColor.ypRed.cgColor // делаем рамку красной
         }
-        // запускаем задачу через 1 секунду c помощью диспетчера задач
+        noButton.isEnabled = false
+        yesButton.isEnabled = false
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            guard let self = self else { return } // разворачиваем слабую ссылку
-            // код, который мы хотим вызвать через 1 секунду
-            self.showNextQuestionOrResults()
+            guard let self = self else { return }
+            
+        self.yesButton.isEnabled = true
+        self.noButton.isEnabled = true
+        self.showNextQuestionOrResults()
         }
     }
     
