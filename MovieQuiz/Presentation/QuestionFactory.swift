@@ -48,10 +48,11 @@ class QuestionFactory: QuestionFactoryProtocol {
                 print("Failed to load image")
             }
             
-            let rating = Float(movie.rating) ?? 0
+            let rating = Int(movie.rating) ?? 0
+            let randomRating = Int(arc4random_uniform(9)+1)
             
-            let text = "Рейтинг этого фильма больше 7?"
-            let correctAnswer = rating > 7
+            let text = "Рейтинг этого фильма больше \(randomRating)?"
+            let correctAnswer = rating < randomRating
             
             let question = QuizQuestion(image: imageData,
                                         text: text,
