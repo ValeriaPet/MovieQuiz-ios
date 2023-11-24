@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
     // MARK: - Lifecycle
     
     
@@ -76,7 +76,7 @@ final class MovieQuizViewController: UIViewController {
         
         hideLoadingIndicator()
         
-        let model = UIAlertController (
+        let alert = UIAlertController (
             title: "Ошибка",
             message: message,
             preferredStyle: .alert)
@@ -85,7 +85,7 @@ final class MovieQuizViewController: UIViewController {
             guard let self = self else {return}
             self.presenter.restartGame()
         }
-        model.addAction(action)
+        alert.addAction(action)
     }
     
 

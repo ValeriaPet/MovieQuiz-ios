@@ -19,6 +19,8 @@
 		048417DA2B0395DD00103B72 /* MoviesLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048417D92B0395DD00103B72 /* MoviesLoaderTests.swift */; };
 		048417E92B03A60700103B72 /* MovieQuizUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048417E82B03A60700103B72 /* MovieQuizUITests.swift */; };
 		04BE584C2B0D1C9D00AA9A78 /* MovieQuizPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE584B2B0D1C9D00AA9A78 /* MovieQuizPresenter.swift */; };
+		04BE584E2B11514A00AA9A78 /* MovieQuizViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE584D2B11514A00AA9A78 /* MovieQuizViewControllerProtocol.swift */; };
+		04BE58502B11522B00AA9A78 /* PresenterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE584F2B11522B00AA9A78 /* PresenterTest.swift */; };
 		04DB2BD02A8BB19F009A38A8 /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04DB2BCE2A8BB19F009A38A8 /* YS Display-Bold.ttf */; };
 		04DB2BD12A8BB19F009A38A8 /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04DB2BCF2A8BB19F009A38A8 /* YS Display-Medium.ttf */; };
 		04E25FAF2AB0BA0B00893AB7 /* QuestionFactoryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E25FAE2AB0BA0B00893AB7 /* QuestionFactoryDelegate.swift */; };
@@ -68,6 +70,8 @@
 		048417E62B03A60700103B72 /* MovieQuizUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieQuizUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		048417E82B03A60700103B72 /* MovieQuizUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieQuizUITests.swift; sourceTree = "<group>"; };
 		04BE584B2B0D1C9D00AA9A78 /* MovieQuizPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieQuizPresenter.swift; sourceTree = "<group>"; };
+		04BE584D2B11514A00AA9A78 /* MovieQuizViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieQuizViewControllerProtocol.swift; sourceTree = "<group>"; };
+		04BE584F2B11522B00AA9A78 /* PresenterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterTest.swift; sourceTree = "<group>"; };
 		04DB2BCE2A8BB19F009A38A8 /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
 		04DB2BCF2A8BB19F009A38A8 /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
 		04E25FAE2AB0BA0B00893AB7 /* QuestionFactoryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactoryDelegate.swift; sourceTree = "<group>"; };
@@ -120,6 +124,7 @@
 				040F3DA82ABA006800626A93 /* StatisticService.swift */,
 				04F3DE932AE17CE300D31EB6 /* NetworkClient.swift */,
 				04F3DE972AE1813D00D31EB6 /* MoviesLoader.swift */,
+				04BE584D2B11514A00AA9A78 /* MovieQuizViewControllerProtocol.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -141,6 +146,7 @@
 			children = (
 				048417D72B03921400103B72 /* ArrayTests.swift */,
 				048417D92B0395DD00103B72 /* MoviesLoaderTests.swift */,
+				04BE584F2B11522B00AA9A78 /* PresenterTest.swift */,
 			);
 			path = MovieQuizTests;
 			sourceTree = "<group>";
@@ -365,6 +371,7 @@
 			files = (
 				048417D82B03921400103B72 /* ArrayTests.swift in Sources */,
 				048417DA2B0395DD00103B72 /* MoviesLoaderTests.swift in Sources */,
+				04BE58502B11522B00AA9A78 /* PresenterTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,6 +393,7 @@
 				04E25FAF2AB0BA0B00893AB7 /* QuestionFactoryDelegate.swift in Sources */,
 				0432571C2ACC43EB00F4DF37 /* AlertModel.swift in Sources */,
 				AD1ABAB62831907B00B3E448 /* MovieQuizViewController.swift in Sources */,
+				04BE584E2B11514A00AA9A78 /* MovieQuizViewControllerProtocol.swift in Sources */,
 				042171D32AAF589E0053C8A0 /* QuizStepViewModel.swift in Sources */,
 				04F3DE942AE17CE300D31EB6 /* NetworkClient.swift in Sources */,
 				040F3DA92ABA006800626A93 /* StatisticService.swift in Sources */,
