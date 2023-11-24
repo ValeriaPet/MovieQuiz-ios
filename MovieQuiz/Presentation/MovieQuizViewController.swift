@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
+final class MovieQuizViewController: UIViewController {
     // MARK: - Lifecycle
     
     
@@ -12,54 +12,48 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     
     
-    private let presenter = MovieQuizPresenter()
-    private var correctAnswers = 0
-    private var questionFactory: QuestionFactoryProtocol?
+    private var presenter: MovieQuizPresenter!
     private var currentQuestion: QuizQuestion?
     private var alertPresenter: AlertPresenter?
     private var statisticService = StatisticServiceImplementation()
     
     
-    // MARK: - QuestionFactoryDelegate
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        presenter.viewController = self
-        
+
+        presenter = MovieQuizPresenter(viewController: self)
+
         imageView.layer.cornerRadius = 20
-        
-        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(),delegate: self)
+    
         showLoadingIndicator()
-        questionFactory?.loadData()
         alertPresenter = ResultAlertPresenter(viewController: self)
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        presenter.currentQuestion = currentQuestion
         presenter.yesButtonClicked()
+        presenter.currentQuestion = currentQuestion
     }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        presenter.currentQuestion = currentQuestion
         presenter.noButtonClicked()
+        presenter.currentQuestion = currentQuestion
     }
     
-    private func showLoadingIndicator() {
+    func showLoadingIndicator() {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
+    func hideLoadingIndicator() {
+        activityIndicator.isHidden = true
+    }
     
-    private func showNetworkError (message: String) {
+    func showNetworkError (message: String) {
         let model = AlertModel (
             title: "Ошибка",
             message: message,
             textButton: "Попробовать еще раз") { [weak self] in
                 guard let self = self else {return}
-                
-                self.presenter.resetQuestionIndex()
-                self.correctAnswers = 0
-                self.questionFactory?.requestNextQuestion()
+                self.presenter.restartGame()
             }
         alertPresenter?.show(alertModel: model)
     }
@@ -73,13 +67,13 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
     }
-
+    
     func show(quiz result: QuizResultsViewModel) {
-        statisticService.store(correct: correctAnswers, total: presenter.questionsAmount)
+        statisticService.store(correct: presenter.correctAnswers, total: presenter.questionsAmount)
         let alert = UIAlertController(
             title: "Результат квиза",
             message: """
-Ваш результат: \(correctAnswers)/\(presenter.questionsAmount)
+Ваш результат: \(presenter.correctAnswers)/\(presenter.questionsAmount)
 Количество сыграных квизов: \(statisticService.gamesCount)
 Рекорд: \(statisticService.bestGame.correct)/\(presenter.questionsAmount)(\(statisticService.bestGame.date.dateTimeString))
 Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%
@@ -89,65 +83,26 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
             guard let self = self else { return }
-
-            self.presenter.resetQuestionIndex()// 1
-            self.correctAnswers = 0
-            questionFactory?.requestNextQuestion()
+            self.presenter.restartGame()
         }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
     }
     
-    func didReceiveNextQuestion(question: QuizQuestion?) {
-        presenter.didReceiveNextQuestion(question: question)
-    }
-    
     func showAnswerResult(isCorrect: Bool){
+ 
         imageView.layer.borderWidth = 8 // толщина рамки
         imageView.layer.cornerRadius = 20 // радиус скругления углов рамки
-        
         if isCorrect == true {
             imageView.layer.borderColor = UIColor.ypGreen.cgColor // делаем рамку зеленой
-            correctAnswers += 1
         } else {
             imageView.layer.borderColor = UIColor.ypRed.cgColor // делаем рамку красной
         }
-        noButton.isEnabled = false
-        yesButton.isEnabled = false
+        presenter.didAnswer(isCorrectAnswer: isCorrect)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self = self else { return }
-            self.presenter.correctAnswers = self.correctAnswers
-            self.presenter.questionFactory = self.questionFactory
             self.presenter.showNextQuestionOrResults()
         }
-    }
-    
-    private func showNextQuestionOrResults() {
-        if presenter.isLastQuestion() {
-            let text = correctAnswers == presenter.questionsAmount ?
-            "Поздравляем, Вы ответили на 10 из 10!" :
-            "Вы ответили на \(correctAnswers) из 10, попробуйте ещё раз!"
-            
-            let viewModel = QuizResultsViewModel( // 2
-                title: "Этот раунд окончен!",
-                text: text,
-                buttonText: "Сыграть ещё раз")
-            show(quiz: viewModel) // 3
-            
-        } else { // 2
-            presenter.switchToNextQuestion()
-            // идём в состояние "Вопрос показан"
-            self.questionFactory?.requestNextQuestion()
-        }
-    }
-    
-    func didLoadDataFromServer() {
-        activityIndicator.isHidden = true
-        questionFactory?.requestNextQuestion()
-    }
-    
-    func didFailToLoadData(with error: Error) {
-        showNetworkError(message: error.localizedDescription)
     }
 }
