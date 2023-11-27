@@ -111,7 +111,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         
         let totalCount = "Количество сыграных квизов: \(statisticService.gamesCount)"
         let currentResulte = "Ваш результат: \(correctAnswers)/\(questionsAmount)"
-        let record = "Рекорд: \(bestGame.correct)\\\(bestGame.total)" + "(\(bestGame.date.dateTimeString))"
+        let record = "Рекорд: \(bestGame.correct)/\(bestGame.total)" + "(\(bestGame.date.dateTimeString))"
         let averageAccuracy = "Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%"
         
         let resultMessage = [currentResulte, totalCount, record, averageAccuracy].joined(separator: "\n")
